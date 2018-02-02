@@ -16,7 +16,7 @@ class Loewenstark_Redirect_Model_Observer {
         }
     }
 
-    public function redirectToParent($observer) {
+    public function redirectToParent() {
 
         $request_url = Mage::helper('core/url')->getCurrentUrl();
         $path_key = end(explode('/', $request_url));
