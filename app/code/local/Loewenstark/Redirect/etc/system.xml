@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <myconf translate="label">
+            <label>Löwenstark Redirect</label>
+            <sort_order>150</sort_order>
+        </myconf>
+    </tabs>
+    <sections>
+        <ls_redirect translate="label" module="adminhtml">
+            <label>Redirect</label>
+            <tab>myconf</tab>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label comment">
+                    <label>General</label>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <redirect translate="label comment">
+                            <label>Redirect URL</label>
+                            <comment>Redirect from unvisible product to last parent product with conf. params.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </redirect>
+                    </fields>
+                </general>
+            </groups>
+        </ls_redirect>
+    </sections>
+</config>

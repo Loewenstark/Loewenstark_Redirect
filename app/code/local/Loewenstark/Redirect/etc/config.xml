@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Loewenstark_Redirect>
+            <version>1.0.0.0</version>
+        </Loewenstark_Redirect>
+    </modules>
+
+    <global>
+        <blocks>
+            <lsredirect>
+                <class>Loewenstark_Redirect_Block</class>
+            </lsredirect>
+        </blocks>
+        <helpers>
+            <lsredirect>
+                <class>Loewenstark_Redirect_Helper</class>
+            </lsredirect>
+        </helpers>
+        <models>
+            <lsredirect>
+                <class>Loewenstark_Redirect_Model</class>
+            </lsredirect>
+        </models>
+        <resources>
+            <loewenstark_setup>
+                <setup>
+                    <module>Loewenstark_Redirect</module>
+                    <class>Loewenstark_Redirect_Model_Resource_Setup</class>
+                </setup>
+            </loewenstark_setup>
+        </resources>
+    </global>
+    <frontend>
+        <events>
+            <controller_action_layout_render_before_cms_index_noRoute>
+                <observers>
+                    <lsredirect_controller_action_predispatch>
+                        <class>lsredirect/observer</class>
+                        <method>main</method>
+                    </lsredirect_controller_action_predispatch>
+                </observers>
+            </controller_action_layout_render_before_cms_index_noRoute>
+        </events>
+    </frontend>
+</config>
