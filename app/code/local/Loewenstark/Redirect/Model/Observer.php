@@ -19,7 +19,7 @@ class Loewenstark_Redirect_Model_Observer {
     public function redirectToParent($observer) {
 
         $request_url = Mage::helper('core/url')->getCurrentUrl();
-        $path_key = end(split('/', $request_url));
+        $path_key = end(explode('/', $request_url));
 
 
         $products = Mage::getModel('catalog/product')->getCollection()
