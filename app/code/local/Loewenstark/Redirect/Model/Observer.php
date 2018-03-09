@@ -33,7 +33,7 @@ class Loewenstark_Redirect_Model_Observer {
         if ($child && $child->getId()) {
             $main_product_ids = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($child->getId());
 
-            if (!$main_product_id)
+            if (!$main_product_ids)
                 return false;
 
             if ($main_product_ids && count($main_product_ids) > 0)
