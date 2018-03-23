@@ -1,13 +1,11 @@
 <?php
 
-class Loewenstark_Redirect_Model_Observer
-{
+class Loewenstark_Redirect_Model_Observer {
     /*
-     * Check config
+     * Redirect unvisible configurable child URLs to parent with params
      */
 
-    public function main()
-    {
+    public function main() {
 
         $config = Mage::getStoreConfig('ls_redirect/general/redirect');
 
@@ -18,13 +16,7 @@ class Loewenstark_Redirect_Model_Observer
         }
     }
 
-    /*
-    * Redirect unvisible configurable child URLs to parent with params
-    */
-
-    public function redirectToParent()
-    {
-
+    public function redirectToParent() {
         $path_key = Mage::app()->getRequest()->getOriginalPathInfo();
         $path_key = ltrim($path_key, '/');
 
