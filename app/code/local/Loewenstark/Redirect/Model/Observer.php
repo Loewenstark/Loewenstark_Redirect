@@ -1,11 +1,13 @@
 <?php
 
-class Loewenstark_Redirect_Model_Observer {
+class Loewenstark_Redirect_Model_Observer
+{
     /*
-     * Redirect unvisible configurable child URLs to parent with params
+     * Check config
      */
 
-    public function main() {
+    public function main()
+    {
 
         $config = Mage::getStoreConfig('ls_redirect/general/redirect');
 
@@ -16,32 +18,57 @@ class Loewenstark_Redirect_Model_Observer {
         }
     }
 
-    public function redirectToParent() {
+    /*
+    * Redirect unvisible configurable child URLs to parent with params
+    */
 
-        $request_url = Mage::helper('core/url')->getCurrentUrl();
-        $path_key = end(explode('/', $request_url));
+    public function redirectToParent()
+    {
 
+        $path_key = Mage::app()->getRequest()->getOriginalPathInfo();
+        $path_key = ltrim($path_key, '/');
 
-        $products = Mage::getModel('catalog/product')->getCollection()
-                        ->addAttributeToSelect(array('url_path'))
-                        ->addAttributeToFilter('url_path', array('eq' => $path_key))
-                        ->setCurPage(1)->setPageSize(1);
+        $rewrite = Mage::getModel('core/url_rewrite')
+            ->setStoreId(Mage::app()->getStore()->getId())
+            ->loadByRequestPath($path_key);
+        $productId = $rewrite->getProductId();
 
-        if ($products->count() >= 1) {
-            $product_child = $products->getFirstItem();
-            $child_id = $product_child->getId();
-            $child = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId())->load($child_id);
-            $main_product_id = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($child_id);
+        if (!$productId)
+            return false;
+
+        $child = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId())->load($productId);
+
+        if ($child && $child->getId()) {
+            $main_product_ids = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($child->getId());
+
+            if (!$main_product_ids)
+                return false;
+
+            if ($main_product_ids && count($main_product_ids) > 0)
+                $main_product_id = $main_product_ids[0];
+
             $product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId())->load($main_product_id);
             $attributes = $product->getTypeInstance(true)->getConfigurableAttributesAsArray($product);
+
             $params = array();
             foreach ($attributes as $attribute) {
                 $attribute_id = $attribute['attribute_id'];
                 $options_id = $child->getData($attribute['attribute_code']);
                 $params[] = $attribute_id . '=' . $options_id;
             }
+
+            $parameters = Mage::app()->getRequest()->getParams();
+
+            $parameters_extended = Mage::helper('lsredirect')->buildHttpQuery($parameters);
+
+            if($parameters_extended) {
+                $url_queries = '?' . $parameters_extended;
+            }
+
             $product_url = $product->getProductUrl();
-            $result_url = $product_url . '#' . implode("&", $params);
+
+            $result_url = $product_url . $url_queries . '#' . implode("&", $params);
+
             header("HTTP/1.1 301 Moved Permanently");
             header("location:" . $result_url);
             exit;
