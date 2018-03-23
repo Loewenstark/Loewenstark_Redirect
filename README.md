@@ -2,6 +2,17 @@ Loewenstark_Redirect
 =====================
 - Redirect unvisible configurable child product URLs to parent with params
 
+- Full url:
+
+```
+http://localhost:8888/magento_modultest/index.php/test-konfig-prodult.html?gclid=4343#92=5
+```
+
+- Params + conf.
+```
+gclid=4343#92=5
+```
+
 Installation Instructions
 -------------------------
 1. Install the extension via GitHub, and deploy with modman.
