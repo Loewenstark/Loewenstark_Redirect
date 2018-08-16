@@ -1,6 +1,7 @@
 Loewenstark_Redirect
 =====================
 - Redirect unvisible configurable child product URLs to parent with params
+- Redirect visible 'search' configurable child products to parent with params and js redirect
 
 - Full url:
 

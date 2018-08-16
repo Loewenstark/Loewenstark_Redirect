@@ -1,3 +1,5 @@
 app/code/local/Loewenstark/Redirect                                             app/code/local/Loewenstark/Redirect
 app/etc/modules/Loewenstark_Redirect.xml                                        app/etc/modules/Loewenstark_Redirect.xml    
 app/locale/de_DE/Loewenstark_Redirect.csv                                       app/locale/de_DE/Loewenstark_Redirect.csv
+app/design/frontend/base/default/layout/loewenstark_redirect.xml                app/design/frontend/base/default/layout/loewenstark_redirect.xml
+app/design/frontend/base/default/template/loewenstark/redirect                  app/design/frontend/base/default/template/loewenstark/redirect

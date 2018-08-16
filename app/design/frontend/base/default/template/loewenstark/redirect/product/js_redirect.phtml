@@ -1,0 +1,10 @@
+<?php if($this->canShow()): ?>
+    <?php $url = $this->getParentUrl(); ?>
+    <?php if($url): ?>
+        <script>
+            window.setTimeout(function(){
+                window.location.replace("<?php echo $url ?>");
+            }, 500);
+        </script>
+    <?php endif; ?>
+<?php endif; ?>

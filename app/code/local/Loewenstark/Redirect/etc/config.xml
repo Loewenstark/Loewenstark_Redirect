@@ -21,6 +21,11 @@
             <lsredirect>
                 <class>Loewenstark_Redirect_Model</class>
             </lsredirect>
+            <catalog>
+                <rewrite>
+                    <product_visibility>Loewenstark_Redirect_Model_SearchVisibility</product_visibility>
+                </rewrite>
+            </catalog>
         </models>
         <resources>
             <loewenstark_setup>
@@ -32,6 +37,13 @@
         </resources>
     </global>
     <frontend>
+        <layout>
+            <updates>
+                <loewenstark_redirect>
+                    <file>loewenstark_redirect.xml</file>
+                </loewenstark_redirect>
+            </updates>
+        </layout>
         <events>
             <controller_action_layout_render_before_cms_index_noRoute>
                 <observers>
