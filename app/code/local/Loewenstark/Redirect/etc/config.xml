@@ -53,6 +53,14 @@
                     </lsredirect_controller_action_predispatch>
                 </observers>
             </controller_action_layout_render_before_cms_index_noRoute>
+            <controller_action_layout_render_before_catalog_product_view>
+                <observers>
+                    <lsredirect>
+                        <class>lsredirect/observer</class>
+                        <method>addNoindexAndCanonicalForChilds</method>
+                    </lsredirect>
+                </observers>
+            </controller_action_layout_render_before_catalog_product_view>
         </events>
     </frontend>
 </config>

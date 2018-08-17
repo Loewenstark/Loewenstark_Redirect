@@ -2,7 +2,7 @@
 <layout>
     <catalog_product_view>
         <reference name="content">
-            <block type="lsredirect/product_redirect" name="lsredirect.js_redirect" template="loewenstark/redirect/product/js_redirect.phtml" />
+            <!--<block type="lsredirect/product_redirect" name="lsredirect.js_redirect" template="loewenstark/redirect/product/js_redirect.phtml" />-->
         </reference>
     </catalog_product_view>
 </layout>

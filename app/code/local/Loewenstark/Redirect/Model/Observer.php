@@ -69,4 +69,64 @@ class Loewenstark_Redirect_Model_Observer {
         }
     }
 
+    public function addNoindexAndCanonicalForChilds(Varien_Event_Observer $observer)
+    {
+        $product  = Mage::registry('current_product');
+        
+        //only on simple products
+        if($product->getTypeId() != "simple") return $this;
+        
+        //ony for products in search
+        if($product->getVisibility()!=Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH) return $this;
+        
+        //search for parent product
+        $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($product->getId());
+        if(!$parentIds || !isset($parentIds[0])) return $this;
+
+        //load parent
+        $product_collection = Mage::getModel('catalog/product')->getCollection()
+            ->addAttributeToFilter('entity_id', $parentIds[0])
+            ->addUrlRewrite();
+        $parent = $product_collection->getFirstItem();
+        
+        //check parent
+        if(!$parent || !$parent->getId()) return $this;
+                
+        $value = $parent->getProductUrl();
+        $robots = 'NOINDEX, FOLLOW';
+        
+        if (!empty($value))
+        {
+            $value = $this->cleanUrl($value);
+            $link = '<'.$value.'>; rel="canonical"';
+            
+            Mage::app()->getResponse()->setHeader('Link', $link);
+            Mage::app()->getResponse()->setHeader('X-Robots-Tag', $robots);
+
+            $this->_getLayout()->getBlock('head')
+                    ->removeItem('link_rel', $product->getProductUrl())
+                    ->addLinkRel('canonical', $value)
+                    ->setData('robots', $robots);
+        }
+    }
+    
+    /**
+     *
+     * @param string $url
+     * @return string
+     */
+    public function cleanUrl($url)
+    {
+        return str_replace(array('?___SID=U', '&___SID=U'), '', $url);
+    }
+    
+    /**
+     *
+     * @return Mage_Core_Model_Layout
+     */
+    protected function _getLayout()
+    {
+        return Mage::app()->getLayout();
+    }
+
 }
